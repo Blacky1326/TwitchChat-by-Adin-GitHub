@@ -1,5 +1,11 @@
 # Changelog — MultiChat for OBS
 
+## v1.0.21 — Regelmäßige Update-Prüfung
+- Beim Start und anschließend alle fünf Minuten wird im Hintergrund nach Updates gesucht.
+
+## v1.0.20 — Standardbrowser für Updates
+- Der Update-Button öffnet den Download im Windows-Standardbrowser statt im OBS-Dock.
+
 ## v1.0.19 — Download im OBS-Dock
 - Der Download-Link wird im OBS-Dock kopiert, statt ein leeres Browser-Fenster zu öffnen.
 

@@ -124,6 +124,17 @@ app.get('/api/update', async (_, res) => {
     res.json({ available: newer, current: VERSION, latest: latest || 'unbekannt', url: asset?.browser_download_url || release.html_url, notes: release.body || '' });
   } catch (error) { res.status(502).json({ error: `Update-Prüfung fehlgeschlagen: ${error.message}` }); }
 });
+app.post('/api/update/open', (req, res) => {
+  try {
+    const url = new URL(String(req.body?.url || ''));
+    const expectedPath = `/${UPDATE_REPOSITORY}/releases/`;
+    if (url.protocol !== 'https:' || url.hostname !== 'github.com' || !url.pathname.startsWith(expectedPath)) throw new Error('Ungültiger Update-Link.');
+    execFile('cmd.exe', ['/d', '/s', '/c', `start "" "${url.toString().replace(/"/g, '')}"`], { windowsHide: true }, error => {
+      if (error) console.warn('Update-Browser konnte nicht geöffnet werden:', error.message);
+    });
+    res.json({ ok: true });
+  } catch (error) { res.status(400).json({ error: error.message || 'Browser konnte nicht geöffnet werden.' }); }
+});
 app.get('/overlay', (_, res) => res.sendFile(path.join(__dirname, '..', 'public', 'overlay.html')));
 app.get('/dock', (_, res) => res.sendFile(path.join(__dirname, '..', 'public', 'index.html')));
 app.get('/api/twitch/status', (_, res) => res.json({ connected: Boolean(twitchAuth), username: twitchAuth?.username || '' }));

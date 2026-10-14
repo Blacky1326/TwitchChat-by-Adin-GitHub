@@ -21,13 +21,15 @@ async function checkForUpdate(manual = false) {
     if (!response.ok) throw new Error(data.error || 'Unbekannter Fehler');
     if (!data.available) { if (manual) updateText.textContent = data.message || 'Du nutzt bereits die neueste Version.'; return; }
     updateBox.classList.add('update-available');
-    updateText.innerHTML = `Version v${data.latest} ist verfügbar. <button type="button" class="copy-update-link">Download-Link kopieren</button>`;
+    updateText.innerHTML = `Version v${data.latest} ist verfügbar. <button type="button" class="copy-update-link">Im Standardbrowser öffnen</button>`;
     updateText.querySelector('.copy-update-link').onclick = async () => {
       try {
-        await navigator.clipboard.writeText(data.url);
-        updateText.querySelector('.copy-update-link').textContent = 'Link kopiert – im Browser einfügen';
+        const open = await fetch('/api/update/open', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ url: data.url }) });
+        const result = await open.json();
+        if (!open.ok) throw new Error(result.error || 'Browser konnte nicht geöffnet werden.');
+        updateText.querySelector('.copy-update-link').textContent = 'Download im Browser geöffnet';
       } catch {
-        window.prompt('Kopiere diesen Link und öffne ihn im normalen Browser:', data.url);
+        updateText.querySelector('.copy-update-link').textContent = 'Browser konnte nicht geöffnet werden';
       }
     };
   } catch (error) { if (manual) updateText.textContent = error.message || 'Update-Prüfung fehlgeschlagen.'; }
@@ -36,6 +38,9 @@ async function checkForUpdate(manual = false) {
 updateButton.onclick = () => checkForUpdate(true);
 // Beim Start unauffällig prüfen; nur ein verfügbares Update wird eingeblendet.
 checkForUpdate();
+// Danach regelmäßig im Hintergrund prüfen. Fünf Minuten bleiben deutlich unter
+// dem GitHub-Limit und haben keinen spürbaren Einfluss auf OBS oder den Stream.
+setInterval(() => checkForUpdate(), 5 * 60 * 1000);
 const twitchAuthBox = document.querySelector('.auth-box');
 if (twitchAuthBox) {
   const button = document.createElement('button'); button.type = 'button'; button.textContent = 'Mit Twitch verbinden';
