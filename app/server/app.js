@@ -129,7 +129,9 @@ app.post('/api/update/open', (req, res) => {
     const url = new URL(String(req.body?.url || ''));
     const expectedPath = `/${UPDATE_REPOSITORY}/releases/`;
     if (url.protocol !== 'https:' || url.hostname !== 'github.com' || !url.pathname.startsWith(expectedPath)) throw new Error('Ungültiger Update-Link.');
-    execFile('cmd.exe', ['/d', '/s', '/c', `start "" "${url.toString().replace(/"/g, '')}"`], { windowsHide: true }, error => {
+    // FileProtocolHandler verwendet den in Windows eingerichteten Standardbrowser
+    // und funktioniert auch aus dem OBS-Browser-Dock heraus.
+    execFile('rundll32.exe', ['url.dll,FileProtocolHandler', url.toString()], { windowsHide: true }, error => {
       if (error) console.warn('Update-Browser konnte nicht geöffnet werden:', error.message);
     });
     res.json({ ok: true });

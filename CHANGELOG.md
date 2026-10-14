@@ -1,5 +1,8 @@
 # Changelog — MultiChat for OBS
 
+## v1.0.23 — Browser-Start korrigiert
+- Der Update-Download öffnet sich zuverlässiger im Windows-Standardbrowser.
+
 ## v1.0.22 — Test der automatischen Update-Meldung
 - Test-Release zur Prüfung der automatischen Update-Erkennung.
 
