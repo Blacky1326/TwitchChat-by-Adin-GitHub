@@ -1,5 +1,15 @@
 # Changelog — MultiChat for OBS
 
+## v1.0.19 — Download im OBS-Dock
+- Der Download-Link wird im OBS-Dock kopiert, statt ein leeres Browser-Fenster zu öffnen.
+
+## v1.0.18 — Automatische Update-Meldung
+- Beim Öffnen wird automatisch nach einer neuen GitHub-Release gesucht.
+- Bei einem Update erscheint ein hervorgehobener Hinweis mit Download-Link.
+
+## v1.0.17 — Update-Test
+- Test-Release für die Update-Prüfung über GitHub.
+
 Todas as versões abaixo pertencem ao ciclo de desenvolvimento que levou à primeira versão estável.
 
 ## 1.0.0 Stable — 2026-09-03

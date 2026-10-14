@@ -1,6 +1,6 @@
 {
   "name": "multichat-for-obs",
-  "version": "1.0.16",
+  "version": "1.0.19",
   "private": true,
   "description": "Twitch Chat by Adin – Live-Chat-Dock für OBS Studio",
   "main": "server/app.js",

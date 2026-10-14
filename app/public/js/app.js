@@ -13,16 +13,29 @@ updateBox.innerHTML = '<button type="button">Nach Updates suchen</button><span><
 document.querySelector('header')?.insertAdjacentElement('afterend', updateBox);
 const updateButton = updateBox.querySelector('button');
 const updateText = updateBox.querySelector('span');
-updateButton.onclick = async () => {
-  updateButton.disabled = true; updateText.textContent = 'Prüfe GitHub…';
+async function checkForUpdate(manual = false) {
+  updateButton.disabled = true;
+  if (manual) updateText.textContent = 'Prüfe GitHub…';
   try {
     const response = await fetch('/api/update'); const data = await response.json();
     if (!response.ok) throw new Error(data.error || 'Unbekannter Fehler');
-    if (!data.available) { updateText.textContent = data.message || 'Du nutzt bereits die neueste Version.'; return; }
-    updateText.innerHTML = `Version v${data.latest} ist verfügbar. <a target="_blank" href="${data.url}">Update herunterladen</a>`;
-  } catch (error) { updateText.textContent = error.message || 'Update-Prüfung fehlgeschlagen.'; }
+    if (!data.available) { if (manual) updateText.textContent = data.message || 'Du nutzt bereits die neueste Version.'; return; }
+    updateBox.classList.add('update-available');
+    updateText.innerHTML = `Version v${data.latest} ist verfügbar. <button type="button" class="copy-update-link">Download-Link kopieren</button>`;
+    updateText.querySelector('.copy-update-link').onclick = async () => {
+      try {
+        await navigator.clipboard.writeText(data.url);
+        updateText.querySelector('.copy-update-link').textContent = 'Link kopiert – im Browser einfügen';
+      } catch {
+        window.prompt('Kopiere diesen Link und öffne ihn im normalen Browser:', data.url);
+      }
+    };
+  } catch (error) { if (manual) updateText.textContent = error.message || 'Update-Prüfung fehlgeschlagen.'; }
   finally { updateButton.disabled = false; }
-};
+}
+updateButton.onclick = () => checkForUpdate(true);
+// Beim Start unauffällig prüfen; nur ein verfügbares Update wird eingeblendet.
+checkForUpdate();
 const twitchAuthBox = document.querySelector('.auth-box');
 if (twitchAuthBox) {
   const button = document.createElement('button'); button.type = 'button'; button.textContent = 'Mit Twitch verbinden';
