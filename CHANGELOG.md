@@ -1,5 +1,8 @@
 # Changelog — MultiChat for OBS
 
+## v1.0.22 — Test der automatischen Update-Meldung
+- Test-Release zur Prüfung der automatischen Update-Erkennung.
+
 ## v1.0.21 — Regelmäßige Update-Prüfung
 - Beim Start und anschließend alle fünf Minuten wird im Hintergrund nach Updates gesucht.
 
