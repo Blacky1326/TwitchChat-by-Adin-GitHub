@@ -1,0 +1,16 @@
+# Installierte Abhängigkeiten werden nach dem Klonen mit npm install erzeugt.
+app/node_modules/
+app/.npm-cache/
+
+# Lokale Einstellungen und mögliche Zugangsdaten gehören nie ins Repository.
+.env
+.env.*
+*.log
+
+# Veröffentlichte ZIP-Dateien werden ausschließlich als GitHub Release hochgeladen.
+*.zip
+
+# Windows-/Editor-Dateien
+Thumbs.db
+Desktop.ini
+.vscode/

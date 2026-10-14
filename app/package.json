@@ -1,0 +1,22 @@
+{
+  "name": "multichat-for-obs",
+  "version": "1.0.15",
+  "private": true,
+  "description": "Twitch Chat by Adin – Live-Chat-Dock für OBS Studio",
+  "main": "server/app.js",
+  "scripts": {
+    "start": "node server/app.js",
+    "dev": "node server/app.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "dotenv": "^17.2.2",
+    "express": "^5.1.0",
+    "socket.io": "^4.8.1",
+    "tiktok-live-connector": "2.4.4",
+    "ws": "^8.18.3",
+    "youtube-chat-next": "^3.1.0"
+  }
+}

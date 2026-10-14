@@ -1,0 +1,2 @@
+using System.Diagnostics;
+class MultiChatStop { static void Main(){var p=Process.Start(new ProcessStartInfo("powershell.exe","-NoProfile -WindowStyle Hidden -Command \"Get-NetTCPConnection -LocalPort 8787 -State Listen -ErrorAction SilentlyContinue | ForEach-Object { Stop-Process -Id $_.OwningProcess -Force -ErrorAction SilentlyContinue }\""){UseShellExecute=false,CreateNoWindow=true});if(p!=null)p.WaitForExit();} }
