@@ -23,3 +23,5 @@ header h1 small{font-size:10px;color:var(--muted);font-weight:500}.pill.online{b
 .privacy,.obs-tools{display:none}
 
 .viewer-toggle{width:100%;margin-top:10px;background:#293246;font-weight:700}
+
+.update-box{display:flex;align-items:center;gap:8px;margin:-4px 0 10px;font-size:11px;color:var(--muted)}.update-box button{padding:6px 9px;font-size:11px}.update-box a{color:#b78bff;font-weight:700}

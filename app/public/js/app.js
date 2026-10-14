@@ -7,6 +7,22 @@ let userDisconnected = false;
 const visibleMessageIds = new Set();
 let kickBrowser = null;
 const $ = id => document.getElementById(id);
+const updateBox = document.createElement('div');
+updateBox.className = 'update-box';
+updateBox.innerHTML = '<button type="button">Nach Updates suchen</button><span></span>';
+document.querySelector('header')?.insertAdjacentElement('afterend', updateBox);
+const updateButton = updateBox.querySelector('button');
+const updateText = updateBox.querySelector('span');
+updateButton.onclick = async () => {
+  updateButton.disabled = true; updateText.textContent = 'Prüfe GitHub…';
+  try {
+    const response = await fetch('/api/update'); const data = await response.json();
+    if (!response.ok) throw new Error(data.error || 'Unbekannter Fehler');
+    if (!data.available) { updateText.textContent = data.message || 'Du nutzt bereits die neueste Version.'; return; }
+    updateText.innerHTML = `Version v${data.latest} ist verfügbar. <a target="_blank" href="${data.url}">Update herunterladen</a>`;
+  } catch (error) { updateText.textContent = error.message || 'Update-Prüfung fehlgeschlagen.'; }
+  finally { updateButton.disabled = false; }
+};
 const twitchAuthBox = document.querySelector('.auth-box');
 if (twitchAuthBox) {
   const button = document.createElement('button'); button.type = 'button'; button.textContent = 'Mit Twitch verbinden';

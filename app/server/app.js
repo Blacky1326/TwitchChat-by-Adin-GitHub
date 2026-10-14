@@ -13,6 +13,7 @@ const MockAdapter = require('./adapters/mock');
 const TikTokAdapter = require('./adapters/tiktok');
 const { version: VERSION } = require('../package.json');
 const execFileAsync = promisify(execFile);
+const UPDATE_REPOSITORY = 'Blacky1326/TwitchChat-by-Adin-GitHub';
 
 function env(name, fallback = '') { return process.env[name] ?? fallback; }
 function yes(value) { return Boolean(String(value || '').trim()); }
@@ -104,6 +105,25 @@ function capabilities() {
 
 app.get('/health', (_, res) => res.json({ ok: true, name: 'Twitch Chat by Adin', version: VERSION, subscriptions: subscriptions.size, capabilities: capabilities() }));
 app.get('/api/capabilities', (_, res) => res.json({ version: VERSION, capabilities: capabilities() }));
+app.get('/api/update', async (_, res) => {
+  try {
+    const response = await fetch(`https://api.github.com/repos/${UPDATE_REPOSITORY}/releases/latest`, { headers: { Accept: 'application/vnd.github+json', 'User-Agent': 'Twitch-Chat-by-Adin' } });
+    if (response.status === 404) return res.json({ available: false, message: 'Noch kein GitHub-Release veröffentlicht.' });
+    if (!response.ok) throw new Error(`GitHub antwortet mit ${response.status}.`);
+    const release = await response.json();
+    const latest = String(release.tag_name || '').replace(/^v/i, '');
+    const currentParts = VERSION.split('.').map(Number), latestParts = latest.split('.').map(Number);
+    let newer = false;
+    for (let index = 0; index < Math.max(currentParts.length, latestParts.length); index += 1) {
+      const currentPart = currentParts[index] || 0, latestPart = latestParts[index] || 0;
+      if (latestPart === currentPart) continue;
+      newer = latestPart > currentPart;
+      break;
+    }
+    const asset = (release.assets || []).find(item => /\.zip$/i.test(item.name));
+    res.json({ available: newer, current: VERSION, latest: latest || 'unbekannt', url: asset?.browser_download_url || release.html_url, notes: release.body || '' });
+  } catch (error) { res.status(502).json({ error: `Update-Prüfung fehlgeschlagen: ${error.message}` }); }
+});
 app.get('/overlay', (_, res) => res.sendFile(path.join(__dirname, '..', 'public', 'overlay.html')));
 app.get('/dock', (_, res) => res.sendFile(path.join(__dirname, '..', 'public', 'index.html')));
 app.get('/api/twitch/status', (_, res) => res.json({ connected: Boolean(twitchAuth), username: twitchAuth?.username || '' }));
