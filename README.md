@@ -40,4 +40,4 @@ Die ausführbaren Start-/Stop-Dateien erwarten den Unterordner `app` neben sich.
 2. Prüfen, dass keine privaten Dateien im Ordner liegen.
 3. Eine ZIP mit Tool, `app` und `node_modules` für Nutzer erstellen.
 4. Auf GitHub unter **Releases → Draft a new release** hochladen.
-5. Den Release-Tag passend wählen, z. B. `v1.0.15`.
+5. Den Release-Tag passend zur Versionsnummer wählen, z. B. `v1.0.25`.
