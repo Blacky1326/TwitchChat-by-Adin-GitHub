@@ -25,3 +25,7 @@ header h1 small{font-size:10px;color:var(--muted);font-weight:500}.pill.online{b
 .viewer-toggle{width:100%;margin-top:10px;background:#293246;font-weight:700}
 
 .update-box{display:flex;align-items:center;gap:8px;margin:-4px 0 10px;font-size:11px;color:var(--muted)}.update-box button{padding:6px 9px;font-size:11px}.update-box a{color:#b78bff;font-weight:700}.update-box.update-available{padding:8px 10px;border:1px solid #8e53ff;border-radius:9px;background:#26183f;color:#f0e9ff}.update-box.update-available button{background:#7544d8}.copy-update-link{margin-left:4px}
+
+/* Plattformen bleiben klar unterscheidbar, ohne den Chat zu überladen. */
+.msg[data-platform=twitch]{background:#1d1430;border-color:#4b3275;border-left:3px solid #9146ff;padding-left:8px}
+.msg[data-platform=tiktok]{background:#10242b;border-color:#245762;border-left:3px solid #25f4ee;padding-left:8px}

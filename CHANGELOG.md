@@ -1,5 +1,9 @@
 # Änderungsprotokoll — Twitch Chat by Adin
 
+## v1.0.26 — Plattformfarben im Chat
+- Twitch-Nachrichten sind dezent lila hervorgehoben.
+- TikTok-Nachrichten sind dezent cyan hervorgehoben.
+
 ## v1.0.25 — Aufgeräumte Veröffentlichung
 - Alte, nicht verwendete Launcher und doppelte Dokumentation entfernt.
 - GitHub-README bereinigt und vollständig auf Deutsch gehalten.
